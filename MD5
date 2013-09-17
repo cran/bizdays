@@ -1,0 +1,17 @@
+4cdbe6a67ab2fbaebd9f3a6388f847b9 *DESCRIPTION
+5ddf6393c4c02ccec9d3c5fef3d7086d *LICENSE
+09d59651a6b9555800291947d3a77d35 *NAMESPACE
+936b225c3b79f49edcc75a4b54a6a9ad *R/R-bizdays-package.r
+a668244d7d190a0da10d9ce7c3290b61 *R/calendar.R
+5758726cdb97b454aef5391e861247de *README.md
+7aaf6e04bf1b3470bdb57cdf0a70dd05 *data/holidaysANBIMA.rda
+064c9afe9d43fc97bd17a76dbbc21e48 *inst/tests/ANBIMA.cal
+87f40f58fd7f4b52704b5e3ad849b337 *inst/tests/test-calendar.R
+1803bff238a343104c4b44eed2c999c2 *man/Calendar.Rd
+725ce45eab5d47f1bff0858763ecd6e3 *man/adjust.next.Rd
+b6d991f745fa13a4c92c0eee42d67ae5 *man/adjust.previous.Rd
+07ea71f464f833c2ab794974eb5cac02 *man/bizdays.Rd
+457686c6caab3ae6012b03018a7f9778 *man/bizseq.Rd
+84b76b93e2531f41a4807e4463f5a760 *man/holidaysANBIMA.Rd
+5c7cffe78c670c91fc3e6f986c786f08 *man/is.bizday.Rd
+3401aee66f19642410f496eb026d0afe *man/offset.Rd
