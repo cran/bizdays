@@ -3,6 +3,8 @@
 
 # bizdays
 
+[![Build Status](https://travis-ci.org/wilsonfreitas/R-bizdays.svg?branch=master)](https://travis-ci.org/wilsonfreitas/R-bizdays)
+
 `bizdays` makes your life less miserable when you have to deal with business days calculations.
 For many countries it is pretty much usual the use of business days to price financial instruments.
 Usually Excel's `NETWORKDAYS` is fairly at hand and once you have a list of holidays it is quite easy to put your data into a spreadsheet and make things happen.
@@ -26,26 +28,6 @@ or using `devtools`
 ```R
 devtools::install_github('R-bizdays', username='wilsonfreitas')
 ```
-
-## Using
-
-Everything relies on the `Calendar` class, well it is not a strict class as some would argue but in R's domains it is pretty much a class.
-
-```R
-data(holidaysANBIMA)
-cal <- Calendar(holidaysANBIMA)
-```
-
-You have to pass a list of `Date` objects to the `Calendar` function in order to have the calendar properly created.
-Once you have a brand new calendar you are going to have 6 functions at hand: 
-
-- `bizdays`: returns the amount of business days between 2 dates
-- `is.bizday`: returns whether or not the given date is a business day
-- `add`: returns the given date offset by `n` business days (positive or negative)
-- `bizseq`: returns a vector of a sequence of business days
-- `adjust.next` and `adjust.previous`: if the given date isn't a business day this function returns the next or previous business day, respectively, otherwise returns the given date
-
-**All functions, except `bizseq`, accept vector of `Date` objects.**
 
 ## Holidays
 

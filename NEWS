@@ -1,0 +1,23 @@
+Changes in Version 0.1.5
+
+  * add function has been renamed to add.bizdays
+
+  * Calendar's argument weekdays default value is NULL
+
+  * Calendar has new arguments: dib, adjust.from, adjust.to
+
+  * travis-ci integration
+
+  * New functions: bizyears, bizyearse, bizdayse
+  
+  * bizdays accepts NA values in both arguments, from and to
+
+Changes in Version 0.1.4
+
+  * bizdays, adjust.previous, adjust.next and is.bizday accept POSIXct
+  and POSIXlt objects.
+  
+  * bizdays, adjust.previous, adjust.next and is.bizday handle NA values
+  without break
+
+  * bizdays, adjust.next and adjust.previous are fast
