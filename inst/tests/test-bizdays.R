@@ -43,10 +43,15 @@ test_that('it should bizdays all NA values', {
 context('bizyears')
 
 test_that('it should bizyears dates', {
-	cal <- Calendar()
+	cal <- Calendar(dib=365)
 	expect_equal(bizyears('2013-01-02', '2013-01-03', cal), 1/365)
 	cal <- Calendar(holidaysANBIMA, dib=252, weekdays=c('saturday', 'sunday'))
 	expect_equal(bizyears('2013-08-21', '2013-08-24', cal), 2/252)
+})
+
+test_that('it should raise an error while bizyears dates', {
+	cal <- Calendar()
+	expect_error(bizyears('2013-01-02', '2013-01-03', cal), 'NULL dib')
 })
 
 context('bizdays and current days equivalence')
