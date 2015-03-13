@@ -22,9 +22,9 @@
 #' See also \code{adjust.from}.
 #' 
 #' @details
-#' The arguments \code{start.date} and \code{end.date} can be set but once \code{holidays}
-#' is set, \code{start.date} is defined to \code{min(holidays)} and \code{end.date} to 
-#' \code{max(holidays)}.
+#' The arguments \code{start.date} and \code{end.date} can be set but once they aren't and \code{holidays}
+#' is set, \code{start.date} is defined to \code{min(holidays)} and \code{end.date} to \code{max(holidays)}.
+#' If holidays isn't set \code{start.date} is set to \code{'1970-01-01'} and \code{end.date} to \code{'2071-01-01'}.
 #' 
 #' \code{weekdays} is controversial but it is only a sequence of nonworking weekdays.
 #' In the great majority of situations it refers to the weekend but it is also possible defining
@@ -64,7 +64,7 @@
 #' cal <- Calendar(start.date="1976-07-12", end.date="2013-10-28")
 #' is.null(cal$name) # TRUE
 Calendar <- function (holidays=integer(0),
-		start.date='1970-01-01', end.date='2071-01-01', name=NULL,
+		start.date=NULL, end.date=NULL, name=NULL,
 		weekdays=NULL, dib=NULL, adjust.from=adjust.next,
 		adjust.to=adjust.previous) {
 	
@@ -85,20 +85,24 @@ Calendar <- function (holidays=integer(0),
 	that$weekdays <- weekdays
 	# name
 	that$name <- name
+	# dates and holidays
+	n.holidays <- as.integer(as.Date(holidays, origin='1970-01-01'))
 	# start.date and end.date
-	start.date <- as.Date(start.date)
-	end.date <- as.Date(end.date)
-	if (length(holidays) != 0) {
-		start.date <- as.Date(min(holidays))
-		end.date <- as.Date(max(holidays))
-	}
+	.has_holidays <- length(holidays) != 0
+	if (is.null(start.date)) {
+		start.date <- if (.has_holidays) as.Date(min(n.holidays), origin='1970-01-01') else as.Date('1970-01-01')
+	} else
+		start.date <- as.Date(start.date)
+	if (is.null(end.date)) {
+		end.date <- if (.has_holidays) as.Date(max(n.holidays), origin='1970-01-01') else as.Date('2071-01-01')
+	} else
+		end.date <- as.Date(end.date)
 	that$start.date <- start.date
 	that$end.date <- end.date
 	n.start.date <- as.integer(start.date)
 	n.end.date <- as.integer(end.date)
-	# dates and holidays
+	# dates
 	n.dates <- as.integer(seq(from=start.date, to=end.date, by='day'))
-	n.holidays <- as.integer(holidays)
 	# is bizday?
 	.is.bizday <- vapply(n.dates, function(.) {
 		wday <- .%%7
