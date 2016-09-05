@@ -1,7 +1,7 @@
-## ----, message=FALSE-----------------------------------------------------
+## ---- message=FALSE------------------------------------------------------
 library(bizdays)
-cal <- Calendar(holidays=holidaysANBIMA, name='ANBIMA', weekdays=c('saturday', 'sunday'), dib=252)
-bizdays.options$set(default.calendar=cal)
+create.calendar(name='ANBIMA', holidays=holidaysANBIMA, weekdays=c('saturday', 'sunday'))
+bizdays.options$set(default.calendar='ANBIMA')
 
 ## ------------------------------------------------------------------------
 from_dates <- c('2013-07-12', '2012-06-13')

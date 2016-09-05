@@ -12,7 +12,7 @@
 
 <meta name="date" content="2016-09-05" />
 
-<title>Setting default calendar in .Rprofile</title>
+<title>Creating Calendars</title>
 
 
 
@@ -67,35 +67,74 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <div class="fluid-row" id="header">
 
 
-<h1 class="title">Setting default calendar in .Rprofile</h1>
+<h1 class="title">Creating Calendars</h1>
 <h4 class="date"><em>2016-09-05</em></h4>
 
 </div>
 
 
-<div id="setting-default-calendar-in-.rprofile" class="section level1">
-<h1>Setting default calendar in .Rprofile</h1>
-<p>That’s the way I use <code>bizdays</code>, I set the <code>default.calendar</code> in my <code>.Rprofile</code>. Since I am always using <code>holidaysANBIMA</code> holidays I create and set the default calendar in my <code>.Rprofile</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bizdays)
-<span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'ANBIMA'</span>, <span class="dt">holidays=</span>holidaysANBIMA, <span class="dt">weekdays=</span><span class="kw">c</span>(<span class="st">'saturday'</span>, <span class="st">'sunday'</span>))
-bizdays.options$<span class="kw">set</span>(<span class="dt">default.calendar=</span><span class="st">'ANBIMA'</span>)</code></pre></div>
-<p>If you put these 3 lines of code at the end of your <code>.Rprofile</code> you don’t have to instantiate the calendar every time you use <code>bizdays</code>. You can simply</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">from_dates &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'2013-07-12'</span>, <span class="st">'2012-06-13'</span>)
-to_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">as.Date</span>(<span class="st">'2014-02-17'</span>), <span class="kw">as.Date</span>(<span class="st">'2016-07-21'</span>), <span class="dt">by=</span><span class="st">'months'</span>)
-<span class="kw">bizdays</span>(from_dates, to_dates)</code></pre></div>
-<pre><code>##  [1]  153  442  194  483  234  526  276  570  321  613  364  655  404  695
-## [15]  446  735  486  779  529  822  571  863  614  904  654  946  695  987
-## [29]  738 1029</code></pre>
-<p>And it works with any of <code>bizdays</code> functions:</p>
+<div id="creating-a-calendars" class="section level1">
+<h1>Creating a calendars</h1>
+<p>Use <code>create.calendar</code> with your list of holidays.</p>
+<pre><code>## 
+## Attaching package: 'bizdays'</code></pre>
+<pre><code>## The following object is masked from 'package:stats':
+## 
+##     offset</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'MyCalendar'</span>, <span class="dt">holidays=</span>holidays, <span class="dt">weekdays=</span><span class="kw">c</span>(<span class="st">'sunday'</span>, <span class="st">'saturday'</span>),
+                <span class="dt">adjust.from=</span>adjust.next, <span class="dt">adjust.to=</span>adjust.previous)</code></pre></div>
+<p>what should be considered:</p>
 <ul>
-<li><code>bizdays</code>, <code>bizdayse</code></li>
-<li><code>adjust.next</code>, <code>adjust.previous</code></li>
-<li><code>following</code>, <code>preceding</code></li>
-<li><code>modified.following</code>, <code>modified.preceding</code></li>
-<li><code>bizseq</code></li>
-<li><code>is.bizday</code></li>
-<li><code>offset</code>, <code>add.bizdays</code></li>
+<li>calendar name: the calendar must be named <code>MyCalendar</code>. The calendar name is used in all <code>bizdays</code> functions to specify which calendar has to be used.</li>
+<li>list of holidays: the argument <code>holidays</code> is a vector of dates (mostly used R’s date-time objects: <code>Date</code>, <code>POSIX.ct</code> and <code>POSIX.lt</code>) or a character vector with and ISO formatted date (<code>&quot;1976-07-12&quot;</code>).</li>
+<li>weekdays: weekdays to be treated as nonworking days (usually weekends).</li>
+<li>date adjustment: the <code>bizdays</code> function has <code>from</code> and <code>to</code> arguments that define the interval which the amount of days has to be computed. Once <code>from</code> falls in a nonworking day it is moved to the first working day after it. Similarly, <code>to</code> is adjusted to the first working day before this date.</li>
 </ul>
+<p>Now you can call bizdays functions passing the calendar name.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">is.bizday</span>(<span class="st">'2016-07-12'</span>, <span class="st">'MyCalendar'</span>)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">following</span>(<span class="st">'2016-09-07'</span>, <span class="st">'MyCalendar'</span>)</code></pre></div>
+<pre><code>## [1] &quot;2016-09-08&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">bizdays</span>(<span class="st">'2016-07-12'</span>, <span class="st">'2016-10-16'</span>, <span class="st">'MyCalendar'</span>)</code></pre></div>
+<pre><code>## [1] 66</code></pre>
+<p>Of course you can assign the calendar to a variable directly and pass this variable to bizdays functions</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cal &lt;-<span class="st"> </span><span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'MyCalendar'</span>, <span class="dt">holidays=</span>holidays, <span class="dt">weekdays=</span><span class="kw">c</span>(<span class="st">'sunday'</span>, <span class="st">'saturday'</span>),
+                       <span class="dt">adjust.from=</span>adjust.next, <span class="dt">adjust.to=</span>adjust.previous)
+<span class="kw">is.bizday</span>(<span class="st">'2016-07-12'</span>, cal)</code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<p>But this is not expected to work that way.</p>
+<blockquote>
+<h4 id="why-define-weekdays">Why define weekdays?</h4>
+<p>I am frequently asked <em>Why do I have to define weekdays?</em> or even <em>Shouldn’t it be <code>weekenddays</code> instead?</em>.</p>
+<p>The reason I created <code>weekdays</code>: I want to provide a way to compute business days accordingly to any definition or satisfying any needs. In my world, the financial industry, weekends are nonworking days, but for those who work with events, for example, mondays migth be nonworking days.</p>
+<p><code>weekdays</code> defaults to <code>NULL</code> because I wanted the <code>Calendar()</code> call returned an <a href="http://en.wikipedia.org/wiki/Day_count_convention#Actual_methods">Actual</a> calendar.</p>
+</blockquote>
+<div id="skiping-weekends-only-defining-weekends-as-nonworking-days" class="section level2">
+<h2>Skiping weekends only (defining weekends as nonworking days)</h2>
+<p>You can define whatever calendar you want, for example, a calendar without holidays where only weekdays are nonworking days.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'WeekendsOnly'</span>, <span class="dt">weekdays=</span><span class="kw">c</span>(<span class="st">'sunday'</span>, <span class="st">'saturday'</span>))</code></pre></div>
+<p>define only <code>weekdays</code> to weekend days.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">from_dates &lt;-<span class="st"> '2013-01-01'</span>
+to_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">as.Date</span>(<span class="st">'2013-12-31'</span>), <span class="kw">as.Date</span>(<span class="st">'2020-12-31'</span>), <span class="dt">by=</span><span class="st">'years'</span>)
+<span class="kw">bizdays</span>(from_dates, to_dates, <span class="st">'WeekendsOnly'</span>)</code></pre></div>
+<pre><code>## [1]  260  521  782 1043 1303 1564 1825 2087</code></pre>
+</div>
+<div id="skiping-mondays-defining-mondays-as-nonworking-days" class="section level2">
+<h2>Skiping mondays (defining mondays as nonworking days)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'EveryMonday'</span>, <span class="dt">weekdays=</span><span class="st">'monday'</span>)
+from_dates &lt;-<span class="st"> '2013-01-01'</span>
+to_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">as.Date</span>(<span class="st">'2013-12-31'</span>), <span class="kw">as.Date</span>(<span class="st">'2020-12-31'</span>), <span class="dt">by=</span><span class="st">'years'</span>)
+<span class="kw">bizdays</span>(from_dates, to_dates, <span class="st">'EveryMonday'</span>)</code></pre></div>
+<pre><code>## [1]  312  625  938 1252 1565 1877 2190 2504</code></pre>
+</div>
+<div id="skip-nothing-formal-current-days-calendar" class="section level2">
+<h2>Skip nothing (formal current days calendar)</h2>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'Actual'</span>)
+from_dates &lt;-<span class="st"> '2013-01-01'</span>
+to_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">as.Date</span>(<span class="st">'2013-12-31'</span>), <span class="kw">as.Date</span>(<span class="st">'2020-12-31'</span>), <span class="dt">by=</span><span class="st">'years'</span>)
+<span class="kw">bizdays</span>(from_dates, to_dates, <span class="st">'Actual'</span>)</code></pre></div>
+<pre><code>## [1]  364  729 1094 1460 1825 2190 2555 2921</code></pre>
+</div>
 </div>
 
 
