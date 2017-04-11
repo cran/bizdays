@@ -173,21 +173,24 @@ test_that("it should generate a sequence of bizdays", {
 context('offset by a number of business days')
 
 test_that("it should offset the date by n business days", {
-  expect_equal(add.bizdays('2013-01-02', 1, cal), as.Date('2013-01-03'))
-  expect_equal(add.bizdays('2013-01-02', 3, cal), as.Date('2013-01-07'))
-  expect_equal(add.bizdays('2013-01-02', 0, cal), as.Date('2013-01-02'))
-  expect_equal(add.bizdays('2013-01-01', 0, cal), as.Date('2013-01-02'))
-  expect_equal(add.bizdays('2013-01-01', -1, cal), as.Date('2012-12-31'))
-  expect_equal(offset('2013-01-02', 1, cal), as.Date('2013-01-03'))
-  expect_equal(offset('2013-01-02', 3, cal), as.Date('2013-01-07'))
-  expect_equal(offset('2013-01-02', 0, cal), as.Date('2013-01-02'))
-  expect_equal(offset('2013-01-01', 0, cal), as.Date('2013-01-02'))
-  expect_equal(offset('2013-01-01', -1, cal), as.Date('2012-12-31'))
+  expect_equal(offset('2013-01-02', 1, 'Brazil/ANBIMA'), as.Date('2013-01-03'))
+  expect_equal(offset('2013-01-02', 0, 'Brazil/ANBIMA'), as.Date('2013-01-02'))
+  expect_equal(offset('2013-01-02', -1, 'Brazil/ANBIMA'), as.Date('2012-12-31'))
+  
+  expect_equal(offset('2013-01-01', 2, 'Brazil/ANBIMA'), as.Date('2013-01-03'))
+  expect_equal(offset('2013-01-01', 1, 'Brazil/ANBIMA'), as.Date('2013-01-02'))
+  expect_equal(offset('2013-01-01', 0, 'Brazil/ANBIMA'), as.Date('2013-01-01'))
+  expect_equal(offset('2013-01-01', -1, 'Brazil/ANBIMA'), as.Date('2012-12-31'))
+  expect_equal(offset('2013-01-01', -2, 'Brazil/ANBIMA'), as.Date('2012-12-28'))
+  
+  expect_equal(offset('2012-02-27', -1, 'weekends'), as.Date("2012-02-24"))
+  
   dates <- c(as.Date('2013-01-01'), as.Date('2013-01-02'))
-  expect_equal(add.bizdays(dates, 1, cal), c(as.Date('2013-01-03'), as.Date('2013-01-03')))
-  expect_equal(add.bizdays('2013-01-02', c(1, 3), cal), c(as.Date('2013-01-03'), as.Date('2013-01-07')))
-  cal <- Calendar_(start.date='2013-01-01', end.date='2013-01-31')
-  expect_error(add.bizdays('2013-01-10', 30, cal))
+  expect_equal(offset(dates, 1, 'Brazil/ANBIMA'), c(as.Date('2013-01-02'), as.Date('2013-01-03')))
+  expect_equal(offset('2013-01-02', c(1, 3), 'Brazil/ANBIMA'), c(as.Date('2013-01-03'), as.Date('2013-01-07')))
+  expect_equal(offset(dates, c(1, 3), 'Brazil/ANBIMA'), c(as.Date('2013-01-02'), as.Date('2013-01-07')))
+  
+  expect_error(offset('2090-12-20', 30, 'Brazil/ANBIMA'))
 })
 
 test_that('it should warn for bad settings', {
@@ -198,11 +201,10 @@ test_that('it should warn for bad settings', {
 context('POSIX* holidays')
 
 test_that('it should create a calendar with POSIX holidays', {
-  library(lubridate)
-  cal <- Calendar_(ymd(c("1970-01-01", "2015-05-14", "2015-05-25", "2037-12-31")),
-                  weekdays=c("saturday","sunday"))
-  x <- ymd("2015-04-13 UTC", "2015-05-11 UTC", "2015-05-25 UTC")
-  y <- ymd("2015-04-17 UTC", "2015-05-15 UTC", "2015-05-29 UTC")
+  dates <- as.POSIXct(c("1970-01-01", "2015-05-14", "2015-05-25", "2037-12-31"), tz = "UTC")
+  cal <- Calendar_(dates, weekdays=c("saturday","sunday"))
+  x <- as.POSIXct(c("2015-04-13", "2015-05-11", "2015-05-25"), tz = "UTC")
+  y <- as.POSIXct(c("2015-04-17", "2015-05-15", "2015-05-29"), tz = "UTC")
   expect_equal(bizdays(x, y, cal), c(4, 3, 3))
 })
 
@@ -271,3 +273,4 @@ test_that('it should check if QuantLib calendars behave correctly', {
                as.logical(timeDate::isBizday(timeDate::timeDate('2016-01-12'), timeDate::holidayLONDON(2016)))
   )
 })
+

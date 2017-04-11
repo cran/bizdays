@@ -36,6 +36,17 @@ test_that('it should return negative bizdays', {
     bizdays(c('2013-08-21', '2013-01-31', '2013-01-01'), c(NA, '2013-01-01', '2014-01-01'), cal),
     c(NA, -21, 252)
   )
+  cal <- calendars()[["actual"]]
+  expect_equal(bizdays(Sys.Date(), Sys.Date()+c(2, -1, 1, 1)), c(2, -1, 1, 1))
+})
+
+test_that("it should compute bizdays using double index approach", {
+  create.calendar(name = "example1", weekdays = c("saturday", "sunday"),
+                  start.date = "2017-01-24", end.date = "2017-01-30", holidays = "2017-01-25")
+  expect_equal(
+    bizdays("2017-01-24", "2017-01-25", "example1"),
+    bizdays("2017-01-25", "2017-01-26", "example1")
+  )
 })
 
 context('handling NA values')

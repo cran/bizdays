@@ -4,11 +4,14 @@
 \alias{calendar-register}
 \alias{calendars}
 \alias{remove.calendars}
+\alias{has.calendars}
 \title{Calendars register}
 \usage{
 calendars()
 
 remove.calendars(cals)
+
+has.calendars(cals)
 }
 \arguments{
 \item{cals}{character vector of calendars names}
@@ -33,5 +36,5 @@ cal <- calendars()[["Actual"]]
 remove.calendars("Actual")
 # lists registered calendars
 calendars()
+has.calendars(c("actual", "weekends"))
 }
-

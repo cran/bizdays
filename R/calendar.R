@@ -77,6 +77,12 @@ Calendar <- function(holidays=integer(0),
   Calendar_(holidays, start.date, end.date, name, weekdays, adjust.from, adjust.to)
 }
 
+rev_index <- function(idx) {
+  ridx <- cumsum(idx) + 1 - as.integer(idx)
+  ridx[ridx > sum(idx)] <- sum(idx)
+  ridx
+}
+
 Calendar_ <- function (holidays=integer(0),
                        start.date=NULL, end.date=NULL, name=NULL,
                        weekdays=NULL, adjust.from=adjust.next,
@@ -126,12 +132,22 @@ Calendar_ <- function (holidays=integer(0),
   # bizdays and index
   n.bizdays <- n.dates[.is.bizday]
   index.bizdays <- seq_along(n.bizdays)
-  index <- cumsum(.is.bizday)
+  index <- cumsum(.is.bizday)     # forward index - the index
+  rindex <- rev_index(.is.bizday) # backward index - the reverse index
   # bizdays
   that$bizdays <- function(from, to) {
-    from.idx <- index[match(from, n.dates)]
-    to.idx <- index[match(to, n.dates)]
-    to.idx - from.idx
+    m_from <- match(from, n.dates)
+    m_to <- match(to, n.dates)
+    # dif from index
+    from.idx <- index[m_from]
+    to.idx <- index[m_to]
+    dif <- to.idx - from.idx
+    # dif from reverse index
+    from.ridx <- rindex[m_from]
+    to.ridx <- rindex[m_to]
+    rdif <- to.ridx - from.ridx
+    # min is the solution
+    pmin(dif, rdif)
   }
   # adjust.next and adjust.previous
   .adjust <- function(dates, offset) {
@@ -156,8 +172,16 @@ Calendar_ <- function (holidays=integer(0),
   }
   # add
   that$add <- function(date, n) {
-    ref <- index.bizdays[which(date == n.bizdays)]
-    n.bizdays[which(index.bizdays - ref == n)]
+    ix <- n > 0
+    ref <- integer(length(n))
+    ref[ix] <- index[match(date[ix], n.dates)]    # index for positive offsets
+    ref[!ix] <- rindex[match(date[!ix], n.dates)] # reverse index for negative offsets
+    .date <- n.bizdays[match(ref + n, index.bizdays)]
+    # this is ugly and a post calculation correction
+    # if the offset amount is 0 the given date must be returned
+    # this doesn't happen for nonbusiness days
+    .date[n == 0] <- date[n == 0]
+    .date
   }
   class(that) <- 'Calendar'
   return(that)
@@ -249,4 +273,12 @@ check_calendar <- function(cal) {
     cal
   else
     stop('Invalid argument')
+}
+
+#' @export
+#' @rdname calendar-register
+#' @examples
+#' has.calendars(c("actual", "weekends"))
+has.calendars <- function(cals) {
+  cals %in% ls(.CALENDAR_REGISTER)
 }
