@@ -1,7 +1,7 @@
-623dd69911a2eb6e8216b130d34d0542 *DESCRIPTION
+ea2814f150279453abf0ebc18621af45 *DESCRIPTION
 1e3b22b6d7c3595785b5ad33acee0fe6 *LICENSE
 d07f8330f1cd835fc25d36ecb218fcce *NAMESPACE
-15cc3d972c1968751fb97ae335d208c7 *NEWS
+75f82770f6bdefb5e7514ef8b5a9f1d2 *NEWS
 339844fea2339e08fdeb2ffae96d9b37 *R/R-bizdays-package.r
 4a48487dc123183e98569c1380d7f0b5 *R/adjust.date.R
 064d8ee1d7b409fd9783b09201e28f99 *R/bizdays.R
@@ -17,10 +17,10 @@ e3bb42c9290f97727cd1940c47a9f52e *build/vignette.rds
 7aaf6e04bf1b3470bdb57cdf0a70dd05 *data/holidaysANBIMA.rda
 2ae3272a5e62baddca1bca65de93d948 *inst/doc/Creating_Calendars.R
 4c314b6c7dafa86bb1a113ff760ab33b *inst/doc/Creating_Calendars.Rmd
-44c197058d51d72dc8d68b54dd49879c *inst/doc/Creating_Calendars.html
+f33fb06c3b89102ab5e12090eccabbfe *inst/doc/Creating_Calendars.html
 c280f6be1564e97bd917307f6cdca516 *inst/doc/Setting_default_calendar_in_Rprofile.R
 8db534fbd4eb838d830936a1d9bd1735 *inst/doc/Setting_default_calendar_in_Rprofile.Rmd
-88cf45d6b43daee476e2b1d08c6c0d17 *inst/doc/Setting_default_calendar_in_Rprofile.html
+d1cf3c78d7500cfe8c1342b0bed4db06 *inst/doc/Setting_default_calendar_in_Rprofile.html
 6a799ccc1e38ed47fc2e531abf87f15f *man/adjust.date.Rd
 6e422ec0d0ddbbc8ce8a78dddcbd5c96 *man/bizdays-package.Rd
 d8a42f776988cdaf4a9395d2fe4350f7 *man/bizdays.Rd
@@ -36,7 +36,7 @@ df5bb9dbe8541147d7deb2ba6f1bd260 *man/other-calendars.Rd
 668ceae3529f43e51e11d39468c6b4dc *tests/testthat.R
 064c9afe9d43fc97bd17a76dbbc21e48 *tests/testthat/ANBIMA.cal
 9da3b982ae37f9c5ff18f7cd3b2570c4 *tests/testthat/test-bizdays.R
-45501f3479dcf62770e63d41c5e864a7 *tests/testthat/test-calendar.R
+48fa5610d547ee0fbcf457099d440d62 *tests/testthat/test-calendar.R
 f8a987748364f11d6efc8d9bfef713dd *tests/testthat/test-register.R
 4c314b6c7dafa86bb1a113ff760ab33b *vignettes/Creating_Calendars.Rmd
 8db534fbd4eb838d830936a1d9bd1735 *vignettes/Setting_default_calendar_in_Rprofile.Rmd
