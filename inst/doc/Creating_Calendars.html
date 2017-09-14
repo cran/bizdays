@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2017-04-15" />
+<meta name="date" content="2017-09-14" />
 
 <title>Creating Calendars</title>
 
@@ -68,18 +68,13 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Creating Calendars</h1>
-<h4 class="date"><em>2017-04-15</em></h4>
+<h4 class="date"><em>2017-09-14</em></h4>
 
 
 
 <div id="creating-a-calendars" class="section level1">
 <h1>Creating a calendars</h1>
 <p>Use <code>create.calendar</code> with your list of holidays.</p>
-<pre><code>## 
-## Attaching package: 'bizdays'</code></pre>
-<pre><code>## The following object is masked from 'package:stats':
-## 
-##     offset</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'MyCalendar'</span>, <span class="dt">holidays=</span>holidays, <span class="dt">weekdays=</span><span class="kw">c</span>(<span class="st">'sunday'</span>, <span class="st">'saturday'</span>),
                 <span class="dt">adjust.from=</span>adjust.next, <span class="dt">adjust.to=</span>adjust.previous)</code></pre></div>
 <p>what should be considered:</p>
@@ -143,7 +138,7 @@ to_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="
   (function () {
     var script = document.createElement("script");
     script.type = "text/javascript";
-    script.src  = "https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
 </script>

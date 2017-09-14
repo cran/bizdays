@@ -1,4 +1,4 @@
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE, message=FALSE------------------------------------------
 library(bizdays)
 holidays <- holidaysANBIMA
 
