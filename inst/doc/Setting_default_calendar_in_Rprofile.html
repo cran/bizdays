@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 
-<meta name="date" content="2017-09-14" />
+<meta name="date" content="2018-03-24" />
 
 <title>Setting default calendar in .Rprofile</title>
 
@@ -68,7 +68,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 <h1 class="title toc-ignore">Setting default calendar in .Rprofile</h1>
-<h4 class="date"><em>2017-09-14</em></h4>
+<h4 class="date"><em>2018-03-24</em></h4>
 
 
 
@@ -77,7 +77,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <p>That’s the way I use <code>bizdays</code>, I set the <code>default.calendar</code> in my <code>.Rprofile</code>. Since I am always using <code>holidaysANBIMA</code> holidays I create and set the default calendar in my <code>.Rprofile</code>.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(bizdays)
 <span class="kw">create.calendar</span>(<span class="dt">name=</span><span class="st">'ANBIMA'</span>, <span class="dt">holidays=</span>holidaysANBIMA, <span class="dt">weekdays=</span><span class="kw">c</span>(<span class="st">'saturday'</span>, <span class="st">'sunday'</span>))
-bizdays.options$<span class="kw">set</span>(<span class="dt">default.calendar=</span><span class="st">'ANBIMA'</span>)</code></pre></div>
+bizdays.options<span class="op">$</span><span class="kw">set</span>(<span class="dt">default.calendar=</span><span class="st">'ANBIMA'</span>)</code></pre></div>
 <p>If you put these 3 lines of code at the end of your <code>.Rprofile</code> you don’t have to instantiate the calendar every time you use <code>bizdays</code>. You can simply</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">from_dates &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">'2013-07-12'</span>, <span class="st">'2012-06-13'</span>)
 to_dates &lt;-<span class="st"> </span><span class="kw">seq</span>(<span class="kw">as.Date</span>(<span class="st">'2014-02-17'</span>), <span class="kw">as.Date</span>(<span class="st">'2016-07-21'</span>), <span class="dt">by=</span><span class="st">'months'</span>)

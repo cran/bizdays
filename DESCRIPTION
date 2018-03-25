@@ -2,7 +2,7 @@ Package: bizdays
 Title: Business Days Calculations and Utilities
 Description: Business days calculations based on a list of holidays and
     nonworking weekdays. Quite useful for fixed income and derivatives pricing.
-Version: 1.0.4
+Version: 1.0.5
 Author: Wilson Freitas <wilson.freitas@gmail.com>
 Maintainer: Wilson Freitas <wilson.freitas@gmail.com>
 URL: https://github.com/wilsonfreitas/R-bizdays
@@ -17,6 +17,6 @@ License: MIT + file LICENSE
 LazyData: true
 RoxygenNote: 6.0.1
 NeedsCompilation: no
-Packaged: 2017-09-14 11:55:36 UTC; wilson
+Packaged: 2018-03-24 20:58:01 UTC; wilson
 Repository: CRAN
-Date/Publication: 2017-09-14 14:20:34 UTC
+Date/Publication: 2018-03-25 15:01:30 UTC

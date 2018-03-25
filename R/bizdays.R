@@ -79,7 +79,12 @@ bizdays.Date <- function(from, to, cal=bizdays.options$get('default.calendar')) 
   new.to <- cal$adjust.to(new.to, cal)
   bdays <- cal$bizdays(as.integer(new.from), as.integer(new.to))
   bdays[idx] <- -bdays[idx]
-  bdays
+  adj_vec <- as.integer( !(cal$is.bizday(as.integer(new.from)) | cal$is.bizday(as.integer(new.to))) )
+  bdays <- bdays - adj_vec
+  if (cal$financial)
+    bdays
+  else
+    bdays + 1
 }
 
 #' Business days and current days equivalence
