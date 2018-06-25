@@ -81,7 +81,7 @@ Calendar_ <- function (holidays=integer(0),
                        start.date=NULL, end.date=NULL, name=NULL,
                        weekdays=NULL, adjust.from=adjust.next,
                        adjust.to=adjust.previous, financial = TRUE) {
-  
+
   if (length(holidays) != 0 && all(is.null(weekdays)))
     warning('You provided holidays without set weekdays.\n',
             'That setup leads to inconsistencies!')
@@ -92,45 +92,53 @@ Calendar_ <- function (holidays=integer(0),
   that$adjust.from <- adjust.from
   that$adjust.to <- adjust.to
   # weekdays
-  weekdays_codes <- list(monday=4, tuesday=5, wednesday=6, thursday=0,
-                         friday=1, saturday=2, sunday=3)
+  weekdays_codes <- list(monday = 4, tuesday = 5, wednesday = 6, thursday = 0,
+                         friday = 1, saturday = 2, sunday = 3)
   wdays <- unlist(weekdays_codes[weekdays])
   wdays <- if (is.null(wdays)) integer(0) else wdays
   that$weekdays <- weekdays
   # name
   that$name <- name
   # dates and holidays
-  that$holidays <- as.Date(holidays, origin='1970-01-01')
+  that$holidays <- as.Date(holidays, origin = '1970-01-01')
   n.holidays <- as.integer(that$holidays)
   # start.date and end.date
   .has_holidays <- length(holidays) != 0
   if (is.null(start.date)) {
-    start.date <- if (.has_holidays) as.Date(min(n.holidays), origin='1970-01-01') else as.Date('1970-01-01')
+    start.date <- if (.has_holidays)
+      as.Date(min(n.holidays), origin = '1970-01-01') else as.Date('1970-01-01')
   } else
     start.date <- as.Date(start.date)
   if (is.null(end.date)) {
-    end.date <- if (.has_holidays) as.Date(max(n.holidays), origin='1970-01-01') else as.Date('2071-01-01')
+    end.date <- if (.has_holidays)
+      as.Date(max(n.holidays), origin = '1970-01-01') else as.Date('2071-01-01')
   } else
     end.date <- as.Date(end.date)
   that$start.date <- start.date
   that$end.date <- end.date
-  n.start.date <- as.integer(start.date)
-  n.end.date <- as.integer(end.date)
   # dates
-  n.dates <- as.integer(seq(from=start.date, to=end.date, by='day'))
+  d.dates <- seq(from = start.date, to = end.date, by = 'day')
+  n.dates <- as.integer(d.dates)
   # is bizday?
-  .is.bizday <- vapply(n.dates, function(.) {
-    wday <- .%%7
-    ! ( wday %in% wdays || . %in% n.holidays)
-  }, logical(1))
+  .aux <- function(.) ! ( (. %% 7) %in% wdays || . %in% n.holidays)
+  is.bizday_ <- vapply(n.dates, .aux, logical(1))
   that$is.bizday <- function(date) {
-    .is.bizday[match(date, n.dates)]
+    is.bizday_[match(date, n.dates)]
   }
   # bizdays and index
-  n.bizdays <- n.dates[.is.bizday]
+  n.bizdays <- n.dates[is.bizday_]
   index.bizdays <- seq_along(n.bizdays)
-  index <- cumsum(.is.bizday)     # forward index - the index
-  rindex <- rev_index(.is.bizday) # backward index - the reverse index
+  index <- cumsum(is.bizday_)     # forward index - the index
+  rindex <- rev_index(is.bizday_) # backward index - the reverse index
+  # dates table
+  dates.table <- cbind(
+    dates = n.dates,
+    year = as.integer(format(d.dates, "%Y")),
+    month = as.integer(format(d.dates, "%m")),
+    is_bizday = as.integer(is.bizday_),
+    weekday = (n.dates %% 7) + 1
+  )
+  that$dates.table <- dates.table
   # bizdays
   that$bizdays <- function(from, to) {
     m_from <- match(from, n.dates)
@@ -148,11 +156,11 @@ Calendar_ <- function (holidays=integer(0),
   }
   # adjust.next and adjust.previous
   .adjust <- function(dates, offset) {
-    idx <- .is.bizday[match(dates, n.dates)]
+    idx <- is.bizday_[match(dates, n.dates)]
     idx[is.na(idx)] <- TRUE
     while ( ! all(idx) ) {
       dates[!idx] <- dates[!idx] + offset
-      idx <- .is.bizday[match(dates, n.dates)]
+      idx <- is.bizday_[match(dates, n.dates)]
       idx[is.na(idx)] <- TRUE
     }
     dates
@@ -172,7 +180,8 @@ Calendar_ <- function (holidays=integer(0),
     ix <- n > 0
     ref <- integer(length(n))
     ref[ix] <- index[match(date[ix], n.dates)]    # index for positive offsets
-    ref[!ix] <- rindex[match(date[!ix], n.dates)] # reverse index for negative offsets
+    # reverse index for negative offsets
+    ref[!ix] <- rindex[match(date[!ix], n.dates)]
     .date <- n.bizdays[match(ref + n, index.bizdays)]
     # this is ugly and a post calculation correction
     # if the offset amount is 0 the given date must be returned
@@ -184,20 +193,35 @@ Calendar_ <- function (holidays=integer(0),
   return(that)
 }
 
+compare_functions <- function(x, y) {
+  isTRUE(all.equal.language(x, y))
+}
+
+adjust_name <- function(x) {
+  if (compare_functions(x, adjust.next) || compare_functions(x, following)) {
+    "following"
+  } else if (compare_functions(x, adjust.previous) ||
+             compare_functions(x, preceding)) {
+    "preceding"
+  } else if (compare_functions(x, adjust.none)) {
+    "none"
+  }
+}
+
 #' @export
 #' @rdname create.calendar
 create.calendar <- function(name,
                             holidays=integer(0),
-                            weekdays=NULL, 
+                            weekdays=NULL,
                             start.date=NULL, end.date=NULL,
                             adjust.from=adjust.none, adjust.to=adjust.none,
                             financial=TRUE) {
-  cal <- Calendar_(holidays=holidays, weekdays=weekdays, name=name,
-                  start.date=start.date, end.date=end.date,
-                  adjust.from=adjust.from, adjust.to=adjust.to,
-                  financial=financial)
-  cal$adjust.from_label = deparse(substitute(adjust.from))
-  cal$adjust.to_label = deparse(substitute(adjust.to))
+  cal <- Calendar_(holidays = holidays, weekdays = weekdays, name = name,
+                  start.date = start.date, end.date = end.date,
+                  adjust.from = adjust.from, adjust.to = adjust.to,
+                  financial = financial)
+  cal$adjust.from_label <- adjust_name(adjust.from)
+  cal$adjust.to_label <- adjust_name(adjust.to)
   .CALENDAR_REGISTER[[cal$name]] <- cal
   invisible(cal)
 }
@@ -270,15 +294,18 @@ weekdays.character <- function(x, ...) {
 #' @export
 print.Calendar <- function(x, ...) {
   cal <- x
-  lab_holidays = paste0(length(cal$holidays), ' holidays')
-  lab_weekdays_1 = if (length(cal$weekdays)) paste0('(', paste(cal$weekdays, collapse = ', '), ')') else ''
-  lab_weekdays = paste0(length(cal$weekdays), ' weekdays ', lab_weekdays_1)
-  lab_financial = if (cal$financial) 'financial' else 'non financial'
+  lab_holidays <- paste0(length(cal$holidays), ' holidays')
+  lab_weekdays_1 <- if (length(cal$weekdays))
+    paste0('(', paste(cal$weekdays, collapse = ', '), ')') else ''
+  lab_weekdays <- paste0(length(cal$weekdays), ' weekdays ', lab_weekdays_1)
+  lab_financial <- if (cal$financial) 'financial' else 'non financial'
   cat(cal$name, lab_financial, 'calendar', '\n ',
       lab_holidays, '\n ',
       lab_weekdays, '\n ',
-      'range from', format(as.Date(cal$start.date, origin='1970-01-01'), '%Y-%m-%d'),
-      'to', format(as.Date(cal$end.date, origin='1970-01-01'), '%Y-%m-%d'), '\n')
+      'range from', format(as.Date(cal$start.date, origin = '1970-01-01'),
+                           '%Y-%m-%d'),
+      'to', format(as.Date(cal$end.date, origin = '1970-01-01'), '%Y-%m-%d'),
+      '\n')
   cat('bizdays arguments adjust\n',
       sprintf(' %-6s%s', 'from:', cal$adjust.from_label), '\n',
       sprintf(' %-6s%s', 'to:', cal$adjust.to_label), '\n')
@@ -291,7 +318,7 @@ class(.CALENDAR_REGISTER) <- 'CalendarRegister'
 #' @export
 print.CalendarRegister <- function(x, ...) {
   cat('Calendars:', '\n')
-  cat(paste(sort(names(.CALENDAR_REGISTER)), collapse=', '))
+  cat(paste(sort(names(.CALENDAR_REGISTER)), collapse = ', '))
   cat('\n')
   invisible(.CALENDAR_REGISTER)
 }
@@ -332,7 +359,7 @@ calendars <- function() {
 #' @export
 #' @rdname calendar-register
 remove.calendars <- function(cals) {
-  remove(list=cals, envir=.CALENDAR_REGISTER)
+  remove(list = cals, envir = .CALENDAR_REGISTER)
 }
 
 check_calendar <- function(cal) {
