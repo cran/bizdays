@@ -2,12 +2,18 @@
 % Please edit documentation in R/calendar.R
 \name{create.calendar}
 \alias{create.calendar}
-\alias{create.calendar}
 \title{Creates calendars}
 \usage{
-create.calendar(name, holidays = integer(0), weekdays = NULL,
-  start.date = NULL, end.date = NULL, adjust.from = adjust.none,
-  adjust.to = adjust.none, financial = TRUE)
+create.calendar(
+  name,
+  holidays = integer(0),
+  weekdays = NULL,
+  start.date = NULL,
+  end.date = NULL,
+  adjust.from = adjust.none,
+  adjust.to = adjust.none,
+  financial = TRUE
+)
 }
 \arguments{
 \item{name}{calendar's name. This is used to retrieve calendars from register.}
@@ -52,7 +58,7 @@ it differently.
 This argument defaults to \code{NULL} because the default intended behavior for 
 \code{create.calendar} returns an \emph{actual} calendar, so calling \code{create.calendar(name="xxx")} 
 returns a \emph{actual} calendar named \emph{xxx}.
-(for more calendars see \href{http://en.wikipedia.org/wiki/Day_count_convention}{Day Count Convention})
+(for more calendars see \href{https://en.wikipedia.org/wiki/Day_count_convention}{Day Count Convention})
 To define the weekend as the nonworking weekdays one could simply
 use \code{weekdays=c("saturday", "sunday")}.
 
