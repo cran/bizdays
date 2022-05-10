@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-02-05" />
+<meta name="date" content="2022-05-09" />
 
 <title>Creating Calendars</title>
 
@@ -25,6 +25,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -139,15 +140,17 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <h1 class="title toc-ignore">Creating Calendars</h1>
-<h4 class="date">2022-02-05</h4>
+<h4 class="date">2022-05-09</h4>
 
 
 
 <div id="creating-a-calendars" class="section level1">
 <h1>Creating a calendars</h1>
 <p>Use <code>create.calendar</code> with your list of holidays.</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name=</span><span class="st">&#39;MyCalendar&#39;</span>, <span class="at">holidays=</span>holidays, <span class="at">weekdays=</span><span class="fu">c</span>(<span class="st">&#39;sunday&#39;</span>, <span class="st">&#39;saturday&#39;</span>),</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">adjust.from=</span>adjust.next, <span class="at">adjust.to=</span>adjust.previous)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;MyCalendar&quot;</span>, <span class="at">holidays =</span> holidays, <span class="at">weekdays =</span> <span class="fu">c</span>(<span class="st">&quot;sunday&quot;</span>, <span class="st">&quot;saturday&quot;</span>),</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust.from =</span> adjust.next, <span class="at">adjust.to =</span> adjust.previous</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
 <p>what should be considered:</p>
 <ul>
 <li>calendar name: the calendar must be named <code>MyCalendar</code>. The calendar name is used in all <code>bizdays</code> functions to specify which calendar has to be used.</li>
@@ -156,16 +159,18 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li>date adjustment: the <code>bizdays</code> function has <code>from</code> and <code>to</code> arguments that define the interval which the amount of days has to be computed. Once <code>from</code> falls in a nonworking day it is moved to the first working day after it. Similarly, <code>to</code> is adjusted to the first working day before this date.</li>
 </ul>
 <p>Now you can call bizdays functions passing the calendar name.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.bizday</span>(<span class="st">&#39;2016-07-12&#39;</span>, <span class="st">&#39;MyCalendar&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.bizday</span>(<span class="st">&quot;2016-07-12&quot;</span>, <span class="st">&quot;MyCalendar&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">following</span>(<span class="st">&#39;2016-09-07&#39;</span>, <span class="st">&#39;MyCalendar&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">following</span>(<span class="st">&quot;2016-09-07&quot;</span>, <span class="st">&quot;MyCalendar&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] &quot;2016-09-08&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&#39;2016-07-12&#39;</span>, <span class="st">&#39;2016-10-16&#39;</span>, <span class="st">&#39;MyCalendar&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2016-07-12&quot;</span>, <span class="st">&quot;2016-10-16&quot;</span>, <span class="st">&quot;MyCalendar&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 66</code></pre>
 <p>Of course you can assign the calendar to a variable directly and pass this variable to bizdays functions</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cal <span class="ot">&lt;-</span> <span class="fu">create.calendar</span>(<span class="at">name=</span><span class="st">&#39;MyCalendar&#39;</span>, <span class="at">holidays=</span>holidays, <span class="at">weekdays=</span><span class="fu">c</span>(<span class="st">&#39;sunday&#39;</span>, <span class="st">&#39;saturday&#39;</span>),</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                       <span class="at">adjust.from=</span>adjust.next, <span class="at">adjust.to=</span>adjust.previous)</span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">is.bizday</span>(<span class="st">&#39;2016-07-12&#39;</span>, cal)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>cal <span class="ot">&lt;-</span> <span class="fu">create.calendar</span>(</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">name =</span> <span class="st">&quot;MyCalendar&quot;</span>, <span class="at">holidays =</span> holidays, <span class="at">weekdays =</span> <span class="fu">c</span>(<span class="st">&quot;sunday&quot;</span>, <span class="st">&quot;saturday&quot;</span>),</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">adjust.from =</span> adjust.next, <span class="at">adjust.to =</span> adjust.previous</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="fu">is.bizday</span>(<span class="st">&quot;2016-07-12&quot;</span>, cal)</span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
 <p>But this is not expected to work that way.</p>
 <blockquote>
@@ -177,27 +182,27 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="skiping-weekends-only-defining-weekends-as-nonworking-days" class="section level2">
 <h2>Skiping weekends only (defining weekends as nonworking days)</h2>
 <p>You can define whatever calendar you want, for example, a calendar without holidays where only weekdays are nonworking days.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name=</span><span class="st">&#39;WeekendsOnly&#39;</span>, <span class="at">weekdays=</span><span class="fu">c</span>(<span class="st">&#39;sunday&#39;</span>, <span class="st">&#39;saturday&#39;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name =</span> <span class="st">&quot;WeekendsOnly&quot;</span>, <span class="at">weekdays =</span> <span class="fu">c</span>(<span class="st">&quot;sunday&quot;</span>, <span class="st">&quot;saturday&quot;</span>))</span></code></pre></div>
 <p>define only <code>weekdays</code> to weekend days.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="st">&#39;2013-01-01&#39;</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&#39;2013-12-31&#39;</span>), <span class="fu">as.Date</span>(<span class="st">&#39;2020-12-31&#39;</span>), <span class="at">by=</span><span class="st">&#39;years&#39;</span>)</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates, <span class="st">&#39;WeekendsOnly&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="st">&quot;2013-01-01&quot;</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2013-12-31&quot;</span>), <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-31&quot;</span>), <span class="at">by =</span> <span class="st">&quot;years&quot;</span>)</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates, <span class="st">&quot;WeekendsOnly&quot;</span>)</span></code></pre></div>
 <pre><code>## [1]  260  521  782 1043 1303 1564 1825 2087</code></pre>
 </div>
 <div id="skiping-mondays-defining-mondays-as-nonworking-days" class="section level2">
 <h2>Skiping mondays (defining mondays as nonworking days)</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name=</span><span class="st">&#39;EveryMonday&#39;</span>, <span class="at">weekdays=</span><span class="st">&#39;monday&#39;</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="st">&#39;2013-01-01&#39;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&#39;2013-12-31&#39;</span>), <span class="fu">as.Date</span>(<span class="st">&#39;2020-12-31&#39;</span>), <span class="at">by=</span><span class="st">&#39;years&#39;</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates, <span class="st">&#39;EveryMonday&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name =</span> <span class="st">&quot;EveryMonday&quot;</span>, <span class="at">weekdays =</span> <span class="st">&quot;monday&quot;</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="st">&quot;2013-01-01&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2013-12-31&quot;</span>), <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-31&quot;</span>), <span class="at">by =</span> <span class="st">&quot;years&quot;</span>)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates, <span class="st">&quot;EveryMonday&quot;</span>)</span></code></pre></div>
 <pre><code>## [1]  312  625  938 1252 1565 1877 2190 2504</code></pre>
 </div>
 <div id="skip-nothing-formal-current-days-calendar" class="section level2">
 <h2>Skip nothing (formal current days calendar)</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name=</span><span class="st">&#39;Actual&#39;</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="st">&#39;2013-01-01&#39;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&#39;2013-12-31&#39;</span>), <span class="fu">as.Date</span>(<span class="st">&#39;2020-12-31&#39;</span>), <span class="at">by=</span><span class="st">&#39;years&#39;</span>)</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates, <span class="st">&#39;Actual&#39;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name =</span> <span class="st">&quot;Actual&quot;</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="st">&quot;2013-01-01&quot;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2013-12-31&quot;</span>), <span class="fu">as.Date</span>(<span class="st">&quot;2020-12-31&quot;</span>), <span class="at">by =</span> <span class="st">&quot;years&quot;</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates, <span class="st">&quot;Actual&quot;</span>)</span></code></pre></div>
 <pre><code>## [1]  364  729 1094 1460 1825 2190 2555 2921</code></pre>
 </div>
 </div>

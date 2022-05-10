@@ -15,7 +15,7 @@ to be found.}
 \code{getbizdays} returns the number of working days according to a reference
 that can be a month or an year.
 This reference can be passed as a character vector representing months
-or years, or as a numeric vector representing years. The ISO format must be 
+or years, or as a numeric vector representing years. The ISO format must be
 used to represent years or months with character vectors.}
 }
 \description{
@@ -26,12 +26,12 @@ reference than can be another date, a month or an year.
 }
 \examples{
 # for years
-getbizdays(2022:2024, "actual")
+getbizdays(2022:2024, "Brazil/ANBIMA")
 
 # for months
-getbizdays("2022-12", "actual")
+getbizdays("2022-12", "Brazil/ANBIMA")
 
 # using dates as references for months
 dts <- seq(as.Date("2022-01-01"), as.Date("2022-12-01"), by = "months")
-getbizdays(dts, "actual")
+getbizdays(dts, "Brazil/ANBIMA")
 }

@@ -7,13 +7,16 @@
 getdate(expr, ref, cal = bizdays.options$get("default.calendar"))
 }
 \arguments{
-\item{expr}{a character string specifying the date to be returned (see Details)}
+\item{expr}{a character string specifying the date to be returned
+(see Details)}
 
-\item{ref}{a reference which represents a month or year, where the date has to be found.}
+\item{ref}{a reference which represents a month or year, where the
+date has to be found.}
 
 \item{cal}{the calendar's name
 
-\code{expr} represents the day has to be returned, here it follows a few examples:
+\code{expr} represents the day has to be returned, here it follows a few
+examples:
 \itemize{
   \item \code{"second day"}
   \item \code{"10th bizday"}
@@ -33,12 +36,14 @@ getdate(expr, ref, cal = bizdays.options$get("default.calendar"))
 }
 
 \code{getdate} returns dates according to a reference that can be a month or
-an year. This reference can be passed as a character vector representing months
-or years, or as a numeric vector representing years. The ISO format must be 
-used to represent years or months with character vectors.}
+an year. This reference can be passed as a character vector representing
+months or years, or as a numeric vector representing years.
+The ISO format must be used to represent years or months with character
+vectors.}
 }
 \description{
-Imagine you have one date and want the first or last day of this date's month.
+Imagine you have one date and want the first or last day of this date's
+month.
 For example, you have the date 2018-02-01 and want the last day of its month.
 You have to check whether or not its year is a leap year, and this sounds a
 tough task.
@@ -46,7 +51,7 @@ tough task.
 than can be another date, a month or an year.
 }
 \examples{
-getdate("10th wed", 2018, "actual")
+getdate("10th wed", 2018, "Brazil/ANBIMA")
 getdate("last bizday", 2010:2018, "Brazil/ANBIMA")
 dts <- seq(as.Date("2018-01-01"), as.Date("2018-12-01"), "month")
 getdate("first bizday", format(dts, "\%Y-\%m"), "Brazil/ANBIMA")

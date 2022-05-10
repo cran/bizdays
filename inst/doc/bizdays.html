@@ -11,9 +11,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-02-05" />
+<meta name="date" content="2022-05-09" />
 
-<title>Setting default calendar in .Rprofile</title>
+<title>Introduction to bizdays</title>
 
 <script src="data:application/javascript;base64,Ly8gUGFuZG9jIDIuOSBhZGRzIGF0dHJpYnV0ZXMgb24gYm90aCBoZWFkZXIgYW5kIGRpdi4gV2UgcmVtb3ZlIHRoZSBmb3JtZXIgKHRvCi8vIGJlIGNvbXBhdGlibGUgd2l0aCB0aGUgYmVoYXZpb3Igb2YgUGFuZG9jIDwgMi44KS4KZG9jdW1lbnQuYWRkRXZlbnRMaXN0ZW5lcignRE9NQ29udGVudExvYWRlZCcsIGZ1bmN0aW9uKGUpIHsKICB2YXIgaHMgPSBkb2N1bWVudC5xdWVyeVNlbGVjdG9yQWxsKCJkaXYuc2VjdGlvbltjbGFzcyo9J2xldmVsJ10gPiA6Zmlyc3QtY2hpbGQiKTsKICB2YXIgaSwgaCwgYTsKICBmb3IgKGkgPSAwOyBpIDwgaHMubGVuZ3RoOyBpKyspIHsKICAgIGggPSBoc1tpXTsKICAgIGlmICghL15oWzEtNl0kL2kudGVzdChoLnRhZ05hbWUpKSBjb250aW51ZTsgIC8vIGl0IHNob3VsZCBiZSBhIGhlYWRlciBoMS1oNgogICAgYSA9IGguYXR0cmlidXRlczsKICAgIHdoaWxlIChhLmxlbmd0aCA+IDApIGgucmVtb3ZlQXR0cmlidXRlKGFbMF0ubmFtZSk7CiAgfQp9KTsK"></script>
 
@@ -25,6 +25,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -138,33 +139,93 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 
-<h1 class="title toc-ignore">Setting default calendar in .Rprofile</h1>
-<h4 class="date">2022-02-05</h4>
+<h1 class="title toc-ignore">Introduction to bizdays</h1>
+<h4 class="date">2022-05-09</h4>
 
 
 
-<div id="setting-default-calendar-in-.rprofile" class="section level1">
-<h1>Setting default calendar in .Rprofile</h1>
-<p>That’s the way I use <code>bizdays</code>, I set the <code>default.calendar</code> in my <code>.Rprofile</code>. Since I am always using <code>holidaysANBIMA</code> holidays I create and set the default calendar in my <code>.Rprofile</code>.</p>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<p><code>bizdays</code> was developed to count business days between two dates. This is a big issue in brazilian financial market because many financial instruments consider the amount of business days in their accounting rules. So, a typical use of the package is:</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bizdays)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">create.calendar</span>(<span class="at">name=</span><span class="st">&#39;ANBIMA&#39;</span>, <span class="at">holidays=</span>holidaysANBIMA, <span class="at">weekdays=</span><span class="fu">c</span>(<span class="st">&#39;saturday&#39;</span>, <span class="st">&#39;sunday&#39;</span>))</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>bizdays.options<span class="sc">$</span><span class="fu">set</span>(<span class="at">default.calendar=</span><span class="st">&#39;ANBIMA&#39;</span>)</span></code></pre></div>
-<p>If you put these 3 lines of code at the end of your <code>.Rprofile</code> you don’t have to instantiate the calendar every time you use <code>bizdays</code>. You can simply</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>from_dates <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&#39;2013-07-12&#39;</span>, <span class="st">&#39;2012-06-13&#39;</span>)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>to_dates <span class="ot">&lt;-</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">&#39;2014-02-17&#39;</span>), <span class="fu">as.Date</span>(<span class="st">&#39;2016-07-21&#39;</span>), <span class="at">by=</span><span class="st">&#39;months&#39;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(from_dates, to_dates)</span></code></pre></div>
-<pre><code>##  [1]  153  442  194  483  234  526  276  570  321  613  364  655  404  695  446
-## [16]  735  486  779  529  822  571  863  614  904  654  946  695  987  738 1029</code></pre>
-<p>And it works with any of <code>bizdays</code> functions:</p>
-<ul>
-<li><code>bizdays</code>, <code>bizdayse</code></li>
-<li><code>adjust.next</code>, <code>adjust.previous</code></li>
-<li><code>following</code>, <code>preceding</code></li>
-<li><code>modified.following</code>, <code>modified.preceding</code></li>
-<li><code>bizseq</code></li>
-<li><code>is.bizday</code></li>
-<li><code>offset</code>, <code>add.bizdays</code></li>
-</ul>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-28&quot;</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 18</code></pre>
+<p>The <code>bizdays</code> function returns the amount of business days between these dates according to the calendar <code>Brazil/ANBIMA</code>.</p>
+<p>The calendar <code>Brazil/ANBIMA</code> is already loaded and all loaded calendars can be seen with <code>calendars()</code></p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calendars</span>()</span></code></pre></div>
+<pre><code>## Calendars: 
+## Actual, Brazil/ANBIMA, Brazil/B3, EveryMonday, MyCalendar, WeekendsOnly, actual, example1, example2, example3, weekends</code></pre>
+<p>That lists calendars registered in the calendar register. Once you have a calendar registered you can simply use its name in the functions.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-28&quot;</span>, <span class="st">&quot;actual&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 27</code></pre>
+<p>You can look specificaly at one calendar by doing</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calendars</span>()[[<span class="st">&quot;Brazil/B3&quot;</span>]]</span></code></pre></div>
+<pre><code>## Brazil/B3 financial calendar 
+##   380 holidays 
+##   2 weekdays (saturday, sunday) 
+##   range from 2000-01-01 to 2022-12-30 
+## bizdays arguments adjust
+##   from: following 
+##   to:   preceding</code></pre>
+<div id="load-calendars-from-other-packages" class="section level2">
+<h2>Load calendars from other packages</h2>
+<p>Calendars can be loaded from packages RQuantlib and timeDate (Rmetrics).</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load_rmetrics_calendars</span>(<span class="dv">2000</span><span class="sc">:</span><span class="dv">2030</span>)</span></code></pre></div>
+<pre><code>## Calendar Rmetrics/LONDON loaded</code></pre>
+<pre><code>## Calendar Rmetrics/NERC loaded</code></pre>
+<pre><code>## Calendar Rmetrics/NYSE loaded</code></pre>
+<pre><code>## Calendar Rmetrics/TSX loaded</code></pre>
+<pre><code>## Calendar Rmetrics/ZURICH loaded</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calendars</span>()</span></code></pre></div>
+<pre><code>## Calendars: 
+## Actual, Brazil/ANBIMA, Brazil/B3, EveryMonday, MyCalendar, Rmetrics/LONDON, Rmetrics/NERC, Rmetrics/NYSE, Rmetrics/TSX, Rmetrics/ZURICH, WeekendsOnly, actual, example1, example2, example3, weekends</code></pre>
+<p>Once you have calendars loaded they can be directly used by its name.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-28&quot;</span>, <span class="st">&quot;Rmetrics/NYSE&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 18</code></pre>
+<blockquote>
+<p>So, unless you really need a new calendar, you don’t have to create them.</p>
+</blockquote>
+</div>
+</div>
+<div id="usage" class="section level1">
+<h1>Usage</h1>
+<div id="count-bizdays" class="section level2">
+<h2>Count bizdays</h2>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-28&quot;</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 18</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getbizdays</span>(<span class="st">&quot;2022-01&quot;</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] 21</code></pre>
+</div>
+<div id="check-bizdays" class="section level2">
+<h2>Check bizdays</h2>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">is.bizday</span>(<span class="fu">c</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-05&quot;</span>), <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1]  TRUE FALSE</code></pre>
+</div>
+<div id="fix-dates" class="section level2">
+<h2>Fix dates</h2>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">following</span>(<span class="fu">c</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-05&quot;</span>), <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-02-01&quot; &quot;2022-02-07&quot;</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">preceding</span>(<span class="fu">c</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-05&quot;</span>), <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-02-01&quot; &quot;2022-02-04&quot;</code></pre>
+</div>
+<div id="sequence-of-business-days" class="section level2">
+<h2>Sequence of business days</h2>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizseq</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-05&quot;</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-02-01&quot; &quot;2022-02-02&quot; &quot;2022-02-03&quot; &quot;2022-02-04&quot;</code></pre>
+</div>
+<div id="add-business-days-to-a-date" class="section level2">
+<h2>Add business days to a date</h2>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">add.bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="dv">0</span><span class="sc">:</span><span class="dv">5</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-02-01&quot; &quot;2022-02-02&quot; &quot;2022-02-03&quot; &quot;2022-02-04&quot; &quot;2022-02-07&quot;
+## [6] &quot;2022-02-08&quot;</code></pre>
+</div>
+<div id="getdate" class="section level2">
+<h2><code>getdate</code></h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getdate</span>(<span class="st">&quot;first bizday&quot;</span>, <span class="st">&quot;2022-01&quot;</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-01-03&quot;</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">getdate</span>(<span class="st">&quot;180th day&quot;</span>, <span class="st">&quot;2022&quot;</span>, <span class="st">&quot;Brazil/ANBIMA&quot;</span>)</span></code></pre></div>
+<pre><code>## [1] &quot;2022-06-29&quot;</code></pre>
+</div>
 </div>
 
 

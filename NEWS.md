@@ -1,4 +1,14 @@
-Changes in Version 1.0.9
+# bizdays 1.0.10
+
+  * holidaysB3 data updated, the day 2020-07-09 has been removed, it's not a holiday.
+
+  * load_builtin_calendars function created to load calendars: actual, Brazil/ANBIMA, Brazil/B3, weekends
+
+  * Depends updated to 4.0
+
+  * removed data/holidaysANBIMA.rda and data/holidaysB3.rda, calendars are loaded from JSON files
+
+# bizdays 1.0.9
 
   * New function getbizdays which returns the number of business days for specific periods of a year or a month (issue #94)
 
@@ -10,17 +20,17 @@ Changes in Version 1.0.9
   
   * [BUG] wrong return for negative bizdays in non financial calendars (issue #92)
 
-Changes in Version 1.0.8
+# bizdays 1.0.8
 
   * Corrected typos in documentation (links formatting) in order to fulfill CRAN requirements
 
   * Updated travis CI Yaml to avoid errors due to missing requirements
 
-Changes in Version 1.0.7
+# bizdays 1.0.7
 
   * Disabled removed the use of ref object as getdate argument
 
-Changes in Version 1.0.6
+# bizdays 1.0.6
 
   * Import and export calendars (issue #25)
 
@@ -28,7 +38,7 @@ Changes in Version 1.0.6
   
   * Renamed functions (replaced dots with _) (issue #76)
   
-Changes in Version 1.0.5
+# bizdays 1.0.5
 
   * Implemented bizdays optimisations (issue #70)
 
@@ -40,7 +50,7 @@ Changes in Version 1.0.5
   
   * Removed the old calendars construction: the Calendar function
 
-Changes in Version 1.0.4
+# bizdays 1.0.4
 
   * Implemented bizdiff function (issue #57).
   
@@ -48,11 +58,11 @@ Changes in Version 1.0.4
   
   * Implemented new Calendar methods: holidays and weekdays (issue #61)
 
-Changes in Version 1.0.3
+# bizdays 1.0.3
 
   * Implemented check in tests for suggested packages: RQuantLib and timeDate (issue #56).
 
-Changes in Version 1.0.2
+# bizdays 1.0.2
 
   * Implemented the double index strategy to avoid inconsistencies in business days counting (issue #54)
   
@@ -64,11 +74,11 @@ Changes in Version 1.0.2
   
   * bug fixes (issues #53, #54, #55)
   
-Changes in Version 1.0.1
+# bizdays 1.0.1
 
   * Minor changes to achieve conformity with CRAN policies
 
-Changes in Version 1.0.0
+# bizdays 1.0.0
 
   * Calendar's dib argument, bizyears and bizyearse were removed
 
@@ -86,7 +96,7 @@ Changes in Version 1.0.0
   
   * new calendar register: calendars must be created with create.calendar and are referenced by its name in bizdays methods.
 
-Changes in Version 0.2.2
+# bizdays 0.2.2
 
   * Calendar accepts POSIX* in holidays
   
@@ -95,7 +105,7 @@ Changes in Version 0.2.2
   
   * Docs updated
 
-Changes in Version 0.2.1
+# bizdays 0.2.1
 
   * changed print.Calendar to be more informative
   
@@ -109,7 +119,7 @@ Changes in Version 0.2.1
 
   * renamed default.calendar to Calendar(name='Actual/365', dib=365)
 
-Changes in Version 0.2.0
+# bizdays 0.2.0
 
   * print.Calendar returns invisible(x) and shows weekdays
   
@@ -123,7 +133,7 @@ Changes in Version 0.2.0
   
   * add.bizdays performance improved
 
-Changes in Version 0.1.5
+# bizdays 0.1.5
 
   * add function has been renamed to add.bizdays
 
@@ -137,7 +147,7 @@ Changes in Version 0.1.5
   
   * bizdays accepts NA values in both arguments, from and to
 
-Changes in Version 0.1.4
+# bizdays 0.1.4
 
   * bizdays, adjust.previous, adjust.next and is.bizday accept POSIXct
   and POSIXlt objects.
