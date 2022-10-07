@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 
 
-<meta name="date" content="2022-06-22" />
+<meta name="date" content="2022-10-07" />
 
 <title>Introduction to bizdays</title>
 
@@ -109,13 +109,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -140,7 +147,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
 
 <h1 class="title toc-ignore">Introduction to bizdays</h1>
-<h4 class="date">2022-06-22</h4>
+<h4 class="date">2022-10-07</h4>
 
 
 
@@ -154,7 +161,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <p>The calendar <code>Brazil/ANBIMA</code> is already loaded and all loaded calendars can be seen with <code>calendars()</code></p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calendars</span>()</span></code></pre></div>
 <pre><code>## Calendars: 
-## Actual, Brazil/ANBIMA, Brazil/B3, EveryMonday, MyCalendar, WeekendsOnly, actual, example1, example2, example3, weekends</code></pre>
+## Actual, Brazil/ANBIMA, Brazil/B3, Brazil/BMF, EveryMonday, MyCalendar, WeekendsOnly, actual, example1, example2, example3, weekends</code></pre>
 <p>That lists calendars registered in the calendar register. Once you have a calendar registered you can simply use its name in the functions.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-28&quot;</span>, <span class="st">&quot;actual&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 27</code></pre>
@@ -178,7 +185,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <pre><code>## Calendar Rmetrics/ZURICH loaded</code></pre>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calendars</span>()</span></code></pre></div>
 <pre><code>## Calendars: 
-## Actual, Brazil/ANBIMA, Brazil/B3, EveryMonday, MyCalendar, Rmetrics/LONDON, Rmetrics/NERC, Rmetrics/NYSE, Rmetrics/TSX, Rmetrics/ZURICH, WeekendsOnly, actual, example1, example2, example3, weekends</code></pre>
+## Actual, Brazil/ANBIMA, Brazil/B3, Brazil/BMF, EveryMonday, MyCalendar, Rmetrics/LONDON, Rmetrics/NERC, Rmetrics/NYSE, Rmetrics/TSX, Rmetrics/ZURICH, WeekendsOnly, actual, example1, example2, example3, weekends</code></pre>
 <p>Once you have calendars loaded they can be directly used by its name.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">bizdays</span>(<span class="st">&quot;2022-02-01&quot;</span>, <span class="st">&quot;2022-02-28&quot;</span>, <span class="st">&quot;Rmetrics/NYSE&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] 18</code></pre>
