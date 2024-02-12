@@ -1,8 +1,8 @@
-## ---- echo=FALSE, message=FALSE-----------------------------------------------
+## ----echo=FALSE, message=FALSE------------------------------------------------
 library(bizdays)
 holidays <- calendars()[["Brazil/ANBIMA"]]$holidays
 
-## ---- message=FALSE-----------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 create.calendar(
   name = "MyCalendar", holidays = holidays, weekdays = c("sunday", "saturday"),
   adjust.from = adjust.next, adjust.to = adjust.previous
@@ -20,7 +20,7 @@ cal <- create.calendar(
 )
 is.bizday("2016-07-12", cal)
 
-## ---- message=FALSE-----------------------------------------------------------
+## ----message=FALSE------------------------------------------------------------
 create.calendar(name = "WeekendsOnly", weekdays = c("sunday", "saturday"))
 
 ## -----------------------------------------------------------------------------
